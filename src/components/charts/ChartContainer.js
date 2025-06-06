@@ -18,7 +18,7 @@ export default function ChartContainer({ title, chartType = 'line', address, con
   const fetchTransactionData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/transactions/${address}`);
+      const response = await fetch(`/api/transactions/lockForREQBurn?address=${address}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch transaction data from response');

@@ -19,8 +19,8 @@ export default function TransactionList({ address, contractName }) {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`/api/transactions/${address}`);
-      
+    const response = await fetch(`/api/transactions/lockForREQBurn?address=${address}`);
+
       if (!response.ok) {
         throw new Error('Failed to fetch transactions');
       }

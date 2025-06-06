@@ -1,4 +1,4 @@
-// src/pages/api/transactions/[address].js
+// src/pages/api/transactions/lockForReqBurn.js.js 
 import { ethers } from 'ethers';
 
 export default async function handler(req, res) {
@@ -23,49 +23,59 @@ export default async function handler(req, res) {
 
     // Connect to Gnosis Chain via Alchemy
     const provider = new ethers.JsonRpcProvider(`https://gnosis-mainnet.g.alchemy.com/v2/${alchemyApiKey}`);
+    console.log(provider)
 
     // Get the latest block number
-    const latestBlock = await provider.getBlockNumber();
-    
-    // Search through recent blocks to find transactions
+    const blockNum = 40400235;
     const transactions = [];
-    const blocksToSearch = 1000; // Search last 1000 blocks
-    
-    for (let blockNum = latestBlock; blockNum > latestBlock - blocksToSearch && transactions.length < 10; blockNum--) {
-      try {
-        const block = await provider.getBlock(blockNum, true);
-        
-        if (block && block.transactions) {
-          for (const tx of block.transactions) {
-            if (transactions.length >= 10) break;
-            
-            // Check if transaction involves our address (from or to)
-            if (tx.from?.toLowerCase() === address.toLowerCase() || 
-                tx.to?.toLowerCase() === address.toLowerCase()) {
-              
-              // Get transaction receipt for status
-              const receipt = await provider.getTransactionReceipt(tx.hash);
-              
-              transactions.push({
-                hash: tx.hash,
-                from: tx.from,
-                to: tx.to,
-                value: ethers.formatEther(tx.value || '0'),
-                gasUsed: receipt?.gasUsed?.toString() || '0',
-                gasPrice: ethers.formatUnits(tx.gasPrice || '0', 'gwei'),
-                blockNumber: tx.blockNumber,
-                timestamp: block.timestamp,
-                status: receipt?.status === 1 ? 'success' : 'failed',
-                type: tx.from?.toLowerCase() === address.toLowerCase() ? 'outgoing' : 'incoming'
-              });
-            }
+
+    try {
+      const block = await provider.getBlock(40400235);
+      console.log(block.transactions)
+
+      if (block && block.transactions) {
+        for (const tx of block.transactions) {
+          console.log('Transaction to:', tx.to);  // DEBUG: log all "to" addresses
+          console.log('Comparing', tx.to?.toLowerCase(), 'to', address.toLowerCase());
+
+          if (tx.from?.toLowerCase() === address.toLowerCase() || 
+              tx.to?.toLowerCase() === address.toLowerCase()) {
+
+            const receipt = await provider.getTransactionReceipt(tx.hash);
+
+            // Log every matching transaction
+            console.log('Matching transaction:', {
+              hash: tx.hash,
+              from: tx.from,
+              to: tx.to,
+              value: ethers.formatEther(tx.value || '0'),
+              gasUsed: receipt?.gasUsed?.toString() || '0',
+              gasPrice: ethers.formatUnits(tx.gasPrice || '0', 'gwei'),
+              blockNumber: tx.blockNumber,
+              timestamp: block.timestamp,
+              status: receipt?.status === 1 ? 'success' : 'failed',
+              type: tx.from?.toLowerCase() === address.toLowerCase() ? 'outgoing' : 'incoming'
+            });
+
+            transactions.push({
+              hash: tx.hash,
+              from: tx.from,
+              to: tx.to,
+              value: ethers.formatEther(tx.value || '0'),
+              gasUsed: receipt?.gasUsed?.toString() || '0',
+              gasPrice: ethers.formatUnits(tx.gasPrice || '0', 'gwei'),
+              blockNumber: tx.blockNumber,
+              timestamp: block.timestamp,
+              status: receipt?.status === 1 ? 'success' : 'failed',
+              type: tx.from?.toLowerCase() === address.toLowerCase() ? 'outgoing' : 'incoming'
+            });
           }
         }
-      } catch (blockError) {
-        // Skip this block if there's an error
-        continue;
       }
+    } catch (blockError) {
+      console.error('Error reading block:', blockError.message);
     }
+
 
     // Sort by block number (most recent first)
     transactions.sort((a, b) => b.blockNumber - a.blockNumber);
