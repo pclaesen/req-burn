@@ -1,0 +1,173 @@
+.contract-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid #475569;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.contract-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-title h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.network-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-indicator.connected {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.address-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.address-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.address-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.address-text {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  flex: 1;
+}
+
+.address-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 0.375rem;
+  color: #a5b4fc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+}
+
+.action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.card-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1rem;
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .contract-card {
+    padding: 1rem;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .address-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+}
